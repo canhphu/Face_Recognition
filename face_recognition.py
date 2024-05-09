@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 # initialize Camera
-cap = cv2.VideoCapture(0)  # Sử dụng camera mặc định (0)
+cap = cv2.VideoCapture(0)  # Use default camera (0)
 # Take photo from camera
 while True:
     ret, frame = cap.read()
