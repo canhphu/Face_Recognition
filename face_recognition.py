@@ -2,7 +2,28 @@ import mtcnn
 TF_ENABLE_ONEDNN_OPTS=0
 import matplotlib.pyplot as plt
 # load image from file
-filename = "glediston-bastos-ZtmmR9D_2tA-unsplash.jpg"
+import cv2
+
+# initialize Camera
+cap = cv2.VideoCapture(0)  # Sử dụng camera mặc định (0)
+# Take photo from camera
+while True:
+    ret, frame = cap.read()
+
+    # Show frame from camera
+    cv2.imshow('Camera', frame)
+
+    # Push the button 'c' to capture
+    key = cv2.waitKey(1)
+    if (key == ord('c')):
+        # Lưu ảnh vào tệp
+        filename = "my_captured_image.jpg"
+        cv2.imwrite(filename, frame)
+        break
+# Release resources
+cap.release()
+cv2.destroyAllWindows()
+
 pixels = plt.imread(filename)
 print("Shape of image/array:",pixels.shape)
 imgplot = plt.imshow(pixels)
