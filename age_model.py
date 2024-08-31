@@ -1,31 +1,32 @@
-# build_age_model.py
+import os
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from image_processing import load_and_preprocess_data
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.optimizers import Adam
+from image_processing import create_data_generator  # Import the function
 
+# Directories
+root_directory = 'train_data'
+train_dir = os.path.join(root_directory, 'UTKFace')
+val_dir = os.path.join(root_directory, 'crop_part1')
 
-def build_age_model(input_shape=(224, 224, 3)):
+def create_age_model():
     model = Sequential([
-        Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-        MaxPooling2D((2, 2)),
-        Conv2D(64, (3, 3), activation='relu'),
+        Conv2D(32, (3, 3), activation='relu', input_shape=(200, 200, 3)),
         MaxPooling2D((2, 2)),
         Flatten(),
         Dense(128, activation='relu'),
-        Dense(1, activation='linear')  # Regression for age prediction
+        Dense(1, activation='linear')  # Example for regression
     ])
+    model.compile(optimizer=Adam(), loss='mean_squared_error', metrics=['mae'])
     return model
 
+# Create data generators
+train_generator = create_data_generator(train_dir, target_size=(200, 200), class_mode=None)
+val_generator = create_data_generator(val_dir, target_size=(200, 200), class_mode=None)
 
-def train_age_model(train_dir, val_dir):
-    (train_images, train_ages, _, _), (val_images, val_ages, _, _) = load_and_preprocess_data(train_dir, val_dir)
+# Create and train the age model
+age_model = create_age_model()
+age_model.fit(train_generator, validation_data=val_generator, epochs=10)
 
-    model = build_age_model()
-    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-
-    model.fit(train_images, train_ages, validation_data=(val_images, val_ages), epochs=10)
-    model.save('age_model.h5')
-
-
-if __name__ == '__main__':
-    train_age_model('path/to/train_utkface', 'path/to/val_utkface')
+# Save the model
+age_model.save('age_model.h5')
