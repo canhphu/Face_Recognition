@@ -1,5 +1,6 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.optimizers import Adam
 from image_processing import data_generator  # Import the function
 
 # Directories
@@ -36,7 +37,7 @@ gender_model = create_gender_model()
 gender_model.fit(
     train_gender_dataset,
     validation_data=val_gender_dataset,
-    epochs=10
+    epochs=1
 )
 gender_model.save('gender_model.h5')
 
