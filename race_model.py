@@ -1,5 +1,6 @@
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.optimizers import Adam
 from image_processing import data_generator  # Import the function
 
 # Directories
@@ -29,6 +30,6 @@ def create_race_model():
     model.compile(optimizer=Adam(), loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     return model
 race_model = create_race_model()
-race_model.fit(train_race_dataset, validation_data = val_race_dataset, epochs=10)
+race_model.fit(train_race_dataset, validation_data = val_race_dataset, epochs=1)
 race_model.save('race_model.h5')
 
