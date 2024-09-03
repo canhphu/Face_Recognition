@@ -4,14 +4,14 @@ import cv2
 from tensorflow.keras.models import load_model
 
 # Load models
-age_model = load_model('age_model.h5')
-gender_model = load_model('gender_model.h5')
-race_model = load_model('race_model.h5')
+age_model = load_model('models/age_model.h5')
+gender_model = load_model('models/gender_model.h5')
+race_model = load_model('models/race_model.h5')
 
 detector = mtcnn.MTCNN()
 
 
-def preprocess_face(face_img, target_size=(224, 224)):
+def preprocess_face(face_img, target_size=(200, 200)):
     """
     Preprocess face image for model prediction.
     """
