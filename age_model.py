@@ -6,8 +6,8 @@ from image_processing import data_generator  # Import the function
 import tensorflow as tf
 
 # Directories
-train_dir = 'train_data/UTKFace'
-valid_dir = 'train_data/crop_part1'
+train_dir = r"C:\Users\admin\PycharmProjects\Face Recognition\train_data\crop_part1"
+valid_dir = r"C:\Users\admin\PycharmProjects\Face Recognition\train_data\UTKFace"
 batch_size = 32
 
 # Initialize Data Generators
@@ -39,7 +39,7 @@ age_model = create_age_model()
 age_model.fit(
     train_age_dataset,
     validation_data=val_age_dataset,
-    epochs=10
+    epochs=1
 )
 
 # Save the model
